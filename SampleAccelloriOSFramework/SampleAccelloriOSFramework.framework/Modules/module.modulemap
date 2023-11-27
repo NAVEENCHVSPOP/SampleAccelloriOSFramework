@@ -1,0 +1,11 @@
+framework module SampleAccelloriOSFramework {
+  umbrella header "SampleAccelloriOSFramework.h"
+
+  export *
+  module * { export * }
+}
+
+module SampleAccelloriOSFramework.Swift {
+    header "SampleAccelloriOSFramework-Swift.h"
+    requires objc
+}
