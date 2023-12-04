@@ -38,10 +38,10 @@ public class CarPlaySceneDelegate: UIResponder  {
     }
     
     func selectedPop(raceTrack: RaceTracLocationInfo, completion: @escaping () -> Void) {
-        let okAlertAction: CPAlertAction = CPAlertAction(title: "done", style: .default) { _ in
+        let okAlertAction: CPAlertAction = CPAlertAction(title: "Navigate", style: .default) { _ in
             self.interfaceController?.dismissTemplate(animated: true, completion: { _, _ in })
         }
-        let titleAlert = raceTrack.address
+        let titleAlert = raceTrack.city + "," + raceTrack.address + "," + "Store " + raceTrack.storeId
         let alertTemplate: CPAlertTemplate = CPAlertTemplate(titleVariants: [titleAlert], actions: [okAlertAction])
         self.interfaceController?.presentTemplate(alertTemplate, animated: true, completion: { _, _ in
             completion()
@@ -61,7 +61,7 @@ public class CarPlaySceneDelegate: UIResponder  {
     @objc func handleSelectedObject(_ notification: Notification) {
         if let myObject = notification.object {
             let raceTrack = (myObject as! RaceTracLocationInfo)
-            selectedPop(raceTrack: raceTrack) {
+                selectedPop(raceTrack: raceTrack) {
             }
         }
     }

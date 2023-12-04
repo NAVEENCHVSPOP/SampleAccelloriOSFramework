@@ -18,5 +18,8 @@ public struct RaceTracLocationInfo: Codable
     public var distance: String = ""
     public var regularPrice: String = ""
     public var dieselPrice: String = ""
+    public var amenities: [String] = []
+    public var fuelOptions: [String] = []
+    public var hours: String = ""
 }
 
