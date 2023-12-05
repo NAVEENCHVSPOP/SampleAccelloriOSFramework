@@ -43,7 +43,7 @@ public class CarPlaySceneDelegate: UIResponder  {
         let okAlertAction: CPAlertAction = CPAlertAction(title: "Navigate", style: .default) { _ in
             self.interfaceController?.dismissTemplate(animated: true, completion: { _, _ in })
         }
-        let titleAlert = raceTrack.city + "," + raceTrack.address + "," + "Store " + raceTrack.storeId + "," + String(raceTrack.lat) + "," + String(raceTrack.log)
+        let titleAlert = raceTrack.city + "," + raceTrack.address + "," + "Store " + raceTrack.storeId
         let alertTemplate: CPAlertTemplate = CPAlertTemplate(titleVariants: [titleAlert], actions: [okAlertAction])
         self.interfaceController?.presentTemplate(alertTemplate, animated: true, completion: { _, _ in
             completion()
