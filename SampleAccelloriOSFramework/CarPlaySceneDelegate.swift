@@ -1,4 +1,6 @@
 import CarPlay
+import UIKit
+import MapKit
 
 public class CarPlaySceneDelegate: UIResponder  {
 
@@ -42,12 +44,35 @@ public class CarPlaySceneDelegate: UIResponder  {
     func selectedPop(raceTrack: RaceTracLocationInfo, completion: @escaping () -> Void) {
         let okAlertAction: CPAlertAction = CPAlertAction(title: "Navigate", style: .default) { _ in
             self.interfaceController?.dismissTemplate(animated: true, completion: { _, _ in })
+            self.openMapForPlace(raceTrack: raceTrack)
         }
         let titleAlert = raceTrack.city + "," + raceTrack.address + "," + "Store " + raceTrack.storeId + "," + String(raceTrack.lat) + "," + String(raceTrack.log)
         let alertTemplate: CPAlertTemplate = CPAlertTemplate(titleVariants: [titleAlert], actions: [okAlertAction])
         self.interfaceController?.presentTemplate(alertTemplate, animated: true, completion: { _, _ in
             completion()
         })
+    }
+    
+    func openMapForPlace(raceTrack: RaceTracLocationInfo) {
+        
+        let lat1 : NSString = String(raceTrack.lat) as NSString
+        let lng1 : NSString = String(raceTrack.log) as NSString
+        
+        let latitude:CLLocationDegrees =  lat1.doubleValue
+        let longitude:CLLocationDegrees =  lng1.doubleValue
+        
+        let regionDistance:CLLocationDistance = 10000
+        let coordinates = CLLocationCoordinate2DMake(latitude, longitude)
+        let regionSpan = MKCoordinateRegion(center: coordinates, latitudinalMeters: regionDistance, longitudinalMeters: regionDistance)
+        let options = [
+            MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center),
+            MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)
+        ]
+        let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
+        let mapItem = MKMapItem(placemark: placemark)
+        mapItem.name = "\(raceTrack.city)"
+        mapItem.openInMaps(launchOptions: options)
+        
     }
     
     func getNewData(){
