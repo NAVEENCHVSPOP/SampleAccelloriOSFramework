@@ -21,5 +21,6 @@ public struct RaceTracLocationInfo: Codable
     public var amenities: [String] = []
     public var fuelOptions: [String] = []
     public var hours: String = ""
+    public var miles: String = ""
 }
 

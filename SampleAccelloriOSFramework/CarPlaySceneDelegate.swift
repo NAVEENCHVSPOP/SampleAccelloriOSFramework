@@ -15,27 +15,29 @@ public class CarPlaySceneDelegate: UIResponder  {
         for raceTrack in raceTracksInfo {
             let item = CPListItem(text: raceTrack.city, detailText: raceTrack.address)
             item.accessoryType = .none
-//            item.setImage(UIImage(named: radio.imageSquareUrl))
+            // item.setImage(UIImage(named: radio.imageSquareUrl))
             item.handler = { [weak self] item, completion in
                 guard let strongSelf = self else { return }
-                strongSelf.popList(raceTrack: raceTrack, completion: completion)
+                SampleAccelloriOSFramework.shared.sendObjectToMainProject(selectedObject: raceTrack)
+                strongSelf.selectedPop(raceTrack: raceTrack, completion: completion)
+                // strongSelf.popList(raceTrack: raceTrack, completion: completion)
             }
             raceTrackItems.append(item)
         }
         return CPListSection(items: raceTrackItems)
     }
     
-    func popList(raceTrack: RaceTracLocationInfo, completion: @escaping () -> Void) {
-        let okAlertAction: CPAlertAction = CPAlertAction(title: "Ok", style: .default) { _ in
-            SampleAccelloriOSFramework.shared.sendObjectToMainProject(selectedObject: raceTrack)
-            self.interfaceController?.dismissTemplate(animated: true, completion: { _, _ in })
-        }
-        let titleAlert =  "Send to Device"
-        let alertTemplate: CPAlertTemplate = CPAlertTemplate(titleVariants: [titleAlert], actions: [okAlertAction])
-        self.interfaceController?.presentTemplate(alertTemplate, animated: true, completion: { _, _ in
-            completion()
-        })
-    }
+//    func popList(raceTrack: RaceTracLocationInfo, completion: @escaping () -> Void) {
+//        let okAlertAction: CPAlertAction = CPAlertAction(title: "Ok", style: .default) { _ in
+//            SampleAccelloriOSFramework.shared.sendObjectToMainProject(selectedObject: raceTrack)
+//            self.interfaceController?.dismissTemplate(animated: true, completion: { _, _ in })
+//        }
+//        let titleAlert =  "Send to Device"
+//        let alertTemplate: CPAlertTemplate = CPAlertTemplate(titleVariants: [titleAlert], actions: [okAlertAction])
+//        self.interfaceController?.presentTemplate(alertTemplate, animated: true, completion: { _, _ in
+//            completion()
+//        })
+//    }
     
     func selectedPop(raceTrack: RaceTracLocationInfo, completion: @escaping () -> Void) {
         let okAlertAction: CPAlertAction = CPAlertAction(title: "Navigate", style: .default) { _ in
@@ -69,22 +71,19 @@ public class CarPlaySceneDelegate: UIResponder  {
 
 // MARK: - CPTemplateApplicationSceneDelegate
 extension CarPlaySceneDelegate: CPTemplateApplicationSceneDelegate {
-    
 
-        
     public func templateApplicationScene(_ templateApplicationScene: CPTemplateApplicationScene, didConnect interfaceController: CPInterfaceController) {
 
         self.interfaceController = interfaceController
         self.interfaceController?.delegate = self
-        
-
+    
         // Notifications
         NotificationCenter.default.addObserver(self, selector: #selector(handleSelectedObject(_:)),
                 name: Notification.Name("SampleAccelloriOSFrameworkDidSelectRow"), object: nil)
         self.getNewData()
         listViewTemplate.updateSections([updateRaceTracksList()])
         listViewTemplate.tabTitle = "Locations"
-//        listViewTemplate.tabImage = UIImage(named: "locations")
+        // listViewTemplate.tabImage = UIImage(named: "locations")
         let tabBar = CPTabBarTemplate.init(templates: [listViewTemplate ])
         tabBar.delegate = self
         self.interfaceController?.setRootTemplate(tabBar, animated: true, completion: {_, _ in })

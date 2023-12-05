@@ -152,7 +152,7 @@ import Foundation
 // MARK: - UITableViewDelegate
 extension ListViewController: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100.0;//Choose your custom row height
+        return 115.0;//Choose your custom row height
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -176,7 +176,8 @@ extension ListViewController: UITableViewDataSource {
         {
             let textValue =  self.locationsDataArray[indexPath.row].city
             let addressValue =  self.locationsDataArray[indexPath.row].address
-            locationsTableViewCell.updateCell(city:textValue, address: addressValue)
+            let milesValue =  self.locationsDataArray[indexPath.row].miles
+            locationsTableViewCell.updateCell(city:textValue, address: addressValue, miles: milesValue)
             return locationsTableViewCell
         }
         return UITableViewCell()
