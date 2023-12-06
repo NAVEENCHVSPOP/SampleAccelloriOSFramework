@@ -17,8 +17,8 @@ public class CarPlaySceneDelegate: UIResponder, CPTemplateApplicationSceneDelega
         self.interfaceController?.delegate = self
 
 //         Notifications
-//        NotificationCenter.default.addObserver(self, selector: #selector(handleSelectedObject(_:)),
-//                name: Notification.Name("SampleAccelloriOSFrameworkDidSelectRow"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleSelectedObject(_:)),
+                name: Notification.Name("SampleAccelloriOSFrameworkDidSelectRow"), object: nil)
         
         self.getNewData()
         listViewTemplate.updateSections([updateRaceTracksList()])
@@ -49,23 +49,27 @@ public class CarPlaySceneDelegate: UIResponder, CPTemplateApplicationSceneDelega
         for raceTrack in raceTracksInfo {
             let item = CPListItem(text: raceTrack.city, detailText: raceTrack.address)
             item.accessoryType = .none
-            item.handler = { [weak self] item, completion in
-                guard let strongSelf = self else { return }
+            item.handler = {  item, completion in
+//                guard let strongSelf = self else { return }
                 SampleAccelloriOSFramework.shared.sendObjectToMainProject(selectedObject: raceTrack)
-                strongSelf.setupMap(raceTrack: raceTrack, completion: completion)
+//                strongSelf.setupMap(raceTrack: raceTrack, completion: completion)
+                completion()
             }
             raceTrackItems.append(item)
         }
         return CPListSection(items: raceTrackItems)
     }
     
-//    @objc func handleSelectedObject(_ notification: Notification) {
-//        if let myObject = notification.object {
-//            let raceTrack = (myObject as! RaceTracLocationInfo)
-//                selectedPop(raceTrack: raceTrack) {
-//            }
-//        }
-//    }
+    @objc func handleSelectedObject(_ notification: Notification) {
+        if let myObject = notification.object {
+            let raceTrack = (myObject as! RaceTracLocationInfo)
+            self.interfaceController?.popToRootTemplate(animated: true, completion: { _, _ in
+                
+            })
+                selectedPop(raceTrack: raceTrack) {
+            }
+        }
+    }
     
     func selectedPop(raceTrack: RaceTracLocationInfo, completion: @escaping () -> Void) {
         setupMap(raceTrack: raceTrack, completion: completion)
@@ -80,12 +84,12 @@ public class CarPlaySceneDelegate: UIResponder, CPTemplateApplicationSceneDelega
         let poi = CPPointOfInterest(
             location: mapItem,
             title: raceTrack.city,
-            subtitle: "Store:" + raceTrack.storeId,
-            summary: raceTrack.address,
+            subtitle: raceTrack.address,
+            summary: "",
             detailTitle: raceTrack.city,
-            detailSubtitle: "Store:" + raceTrack.storeId,
-            detailSummary: raceTrack.address,
-            pinImage: UIImage()
+            detailSubtitle: raceTrack.address,
+            detailSummary:"",
+            pinImage: UIImage(named: "location_pointer")
         )
         
         poi.primaryButton = CPTextButton(
