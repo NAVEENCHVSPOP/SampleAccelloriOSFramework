@@ -173,7 +173,7 @@ import MapKit
 // MARK: - UITableViewDelegate
 extension ListViewController: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 115.0;//Choose your custom row height
+        return 100.0;//Choose your custom row height
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
