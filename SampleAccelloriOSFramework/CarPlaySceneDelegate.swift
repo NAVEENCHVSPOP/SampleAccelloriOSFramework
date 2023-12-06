@@ -6,13 +6,14 @@ public class CarPlaySceneDelegate: UIResponder, CPTemplateApplicationSceneDelega
    
     // MARK: - Properties
     var interfaceController: CPInterfaceController?
+    var templateApplicationScene: CPTemplateApplicationScene?
     var raceTracksInfo = [RaceTracLocationInfo]()
 
-    let listViewTemplate: CPListTemplate = CPListTemplate(title: "Locations", sections: [])
+    let listViewTemplate: CPListTemplate = CPListTemplate(title: "Nearest Locations", sections: [])
     
     public func templateApplicationScene(_ templateApplicationScene: CPTemplateApplicationScene,
         didConnect interfaceController: CPInterfaceController) {
-    
+        self.templateApplicationScene = templateApplicationScene
         self.interfaceController = interfaceController
         self.interfaceController?.delegate = self
 
@@ -22,10 +23,10 @@ public class CarPlaySceneDelegate: UIResponder, CPTemplateApplicationSceneDelega
         
         self.getNewData()
         listViewTemplate.updateSections([updateRaceTracksList()])
-        listViewTemplate.tabTitle = "Locations"
-        let tabBar = CPTabBarTemplate.init(templates: [listViewTemplate ])
-        tabBar.delegate = self
-        self.interfaceController?.setRootTemplate(tabBar, animated: true, completion: {_, _ in })
+        listViewTemplate.tabTitle = "Nearest Locations"
+//        let tabBar = CPTabBarTemplate.init(templates: [listViewTemplate])
+//        tabBar.delegate = self
+        self.interfaceController?.setRootTemplate(listViewTemplate, animated: true, completion: {_, _ in })
     }
     
     public func templateApplicationScene(_ templateApplicationScene: CPTemplateApplicationScene, didDisconnectInterfaceController interfaceController: CPInterfaceController) {
@@ -91,11 +92,13 @@ public class CarPlaySceneDelegate: UIResponder, CPTemplateApplicationSceneDelega
             detailSummary:"",
             pinImage: UIImage(named: "location_pointer")
         )
-        
+        let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
         poi.primaryButton = CPTextButton(
             title: "GO",
             textStyle: .normal,
-            handler: { _ in }
+            handler: { _ in mapItem.openInMaps(launchOptions: launchOptions, from: self.templateApplicationScene) { _ in
+                
+            }}
         )
         
         poi.secondaryButton = CPTextButton(
@@ -105,7 +108,7 @@ public class CarPlaySceneDelegate: UIResponder, CPTemplateApplicationSceneDelega
         )
         
         let pointOfInterestTemplate = CPPointOfInterestTemplate(
-            title: "Location",
+            title: "Map",
             pointsOfInterest: [poi],
             selectedIndex: NSNotFound)
         pointOfInterestTemplate.pointOfInterestDelegate = self
