@@ -12,7 +12,7 @@ public class SampleAccelloriOSFramework {
 
     public func sendObjectToMainProject(selectedObject: RaceTracLocationInfo) {
         
-        let myObject = RaceTracLocationInfo(locationId: selectedObject.locationId, city: selectedObject.city, address: selectedObject.address, storeId: selectedObject.storeId, lat: selectedObject.lat, log: selectedObject.log, distance: selectedObject.distance, regularPrice: selectedObject.regularPrice, dieselPrice: selectedObject.dieselPrice)
+        let myObject = RaceTracLocationInfo(locationId: selectedObject.locationId, city: selectedObject.city, address: selectedObject.address, storeId: selectedObject.storeId, lat: selectedObject.lat, log: selectedObject.log, distance: selectedObject.distance, regularPrice: selectedObject.regularPrice, dieselPrice: selectedObject.dieselPrice, amenities: selectedObject.amenities, fuelOptions: selectedObject.fuelOptions, hours: selectedObject.hours)
         
         NotificationCenter.default.post(name: Notification.Name("SampleAccelloriOSFrameworkDidSelectRow"), object: myObject)
     }

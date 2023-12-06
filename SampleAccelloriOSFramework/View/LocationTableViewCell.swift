@@ -7,10 +7,16 @@
 
 import UIKit
 
+
 class LocationTableViewCell: UITableViewCell {
 
     @IBOutlet weak var cityLbl: UILabel!
     @IBOutlet weak var addressLbl: UILabel!
+    @IBOutlet weak var milesLbl: UILabel!
+    
+    @IBOutlet weak var navigationBtn: UIButton!
+    
+    var buttonAction : (() -> ())?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -22,10 +28,20 @@ class LocationTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func updateCell(city: String, address: String)
+    func updateCell(city: String, address: String, miles: String)
     {
         self.cityLbl.text = city
         self.addressLbl.text = address
+        self.milesLbl.text = miles
     }
-
+    
+    
+    @IBAction func navigationBtnAction(_ sender: Any) {
+        
+        buttonAction?()
+        
+    }
+    
+   
+    
 }
