@@ -7,6 +7,7 @@
 
 import UIKit
 import Foundation
+import MapKit
 
 @objc public class ListViewController: UIViewController {
     
@@ -23,6 +24,8 @@ import Foundation
             let reversedArray = try? JSONDecoder().decode([RaceTracLocationInfo].self, from: reversedData) {
             self.locationsDataArray = reversedArray
         }
+        
+        
 
 //        locationsDataArray  = [
 //            RaceTracLocationInfo(
@@ -147,6 +150,23 @@ import Foundation
         NotificationCenter.default.removeObserver(self, name: Notification.Name("SampleAccelloriOSFrameworkDidSelectRow"), object: nil)
     }
     
+    func openMapForPlace(index: Int) {
+        
+        let selectedObject = self.locationsDataArray[index]
+           
+        let regionDistance:CLLocationDistance = 10000
+        let coordinates = CLLocationCoordinate2DMake(CLLocationDegrees(selectedObject.lat), CLLocationDegrees(selectedObject.log))
+        let regionSpan = MKCoordinateRegion(center: coordinates, latitudinalMeters: regionDistance, longitudinalMeters: regionDistance)
+        let options = [
+               MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center),
+               MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)
+        ]
+        let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
+        let mapItem = MKMapItem(placemark: placemark)
+        mapItem.name = selectedObject.city
+        mapItem.openInMaps(launchOptions: options)
+    }
+    
 }
 
 // MARK: - UITableViewDelegate
@@ -178,6 +198,12 @@ extension ListViewController: UITableViewDataSource {
             let addressValue =  self.locationsDataArray[indexPath.row].address
             let milesValue =  self.locationsDataArray[indexPath.row].miles
             locationsTableViewCell.updateCell(city:textValue, address: addressValue, miles: milesValue)
+            
+            locationsTableViewCell.buttonAction = { [unowned self] in
+                let selectedIndexPath = indexPath.row
+                openMapForPlace(index: selectedIndexPath)
+            }
+            
             return locationsTableViewCell
         }
         return UITableViewCell()

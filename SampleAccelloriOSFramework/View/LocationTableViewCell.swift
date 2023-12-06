@@ -7,12 +7,16 @@
 
 import UIKit
 
+
 class LocationTableViewCell: UITableViewCell {
 
     @IBOutlet weak var cityLbl: UILabel!
     @IBOutlet weak var addressLbl: UILabel!
-    @IBOutlet weak var directionsImageView: UIImageView!
     @IBOutlet weak var milesLbl: UILabel!
+    
+    @IBOutlet weak var navigationBtn: UIButton!
+    
+    var buttonAction : (() -> ())?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -30,5 +34,14 @@ class LocationTableViewCell: UITableViewCell {
         self.addressLbl.text = address
         self.milesLbl.text = miles
     }
-
+    
+    
+    @IBAction func navigationBtnAction(_ sender: Any) {
+        
+        buttonAction?()
+        
+    }
+    
+   
+    
 }

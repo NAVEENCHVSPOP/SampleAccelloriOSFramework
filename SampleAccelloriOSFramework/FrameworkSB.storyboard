@@ -179,13 +179,6 @@
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="location.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="JZz-eX-S9r">
-                                                    <rect key="frame" x="368" y="48" width="30" height="29"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="30" id="WEe-pK-J1p"/>
-                                                        <constraint firstAttribute="height" constant="30" id="gsI-hm-tCW"/>
-                                                    </constraints>
-                                                </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KuC-JK-rRy">
                                                     <rect key="frame" x="16" y="83.5" width="290" height="22"/>
                                                     <constraints>
@@ -195,10 +188,22 @@
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gIe-o1-n9i">
+                                                    <rect key="frame" x="348" y="37.5" width="50" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="eFC-OR-qaK"/>
+                                                        <constraint firstAttribute="width" constant="50" id="oq4-un-xT0"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="plain" image="location.circle.fill" catalog="system"/>
+                                                    <connections>
+                                                        <action selector="navigationBtnAction:" destination="NgT-p0-iga" eventType="touchUpInside" id="BQs-3a-nvN"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="KVw-PH-BPL" firstAttribute="leading" secondItem="R2f-uk-LXH" secondAttribute="leading" constant="16" id="2ri-iS-GMS"/>
-                                                <constraint firstItem="JZz-eX-S9r" firstAttribute="centerY" secondItem="R2f-uk-LXH" secondAttribute="centerY" id="3Om-P5-Vyx"/>
+                                                <constraint firstAttribute="trailing" secondItem="gIe-o1-n9i" secondAttribute="trailing" constant="16" id="Cgq-j0-1Ic"/>
                                                 <constraint firstItem="KuC-JK-rRy" firstAttribute="top" secondItem="LDI-sc-sjz" secondAttribute="bottom" constant="4" id="EPn-o0-C4f"/>
                                                 <constraint firstItem="KVw-PH-BPL" firstAttribute="width" secondItem="R2f-uk-LXH" secondAttribute="width" multiplier="0.7" id="Imp-vT-v0s"/>
                                                 <constraint firstItem="KuC-JK-rRy" firstAttribute="leading" secondItem="KVw-PH-BPL" secondAttribute="leading" id="gE6-T2-rej"/>
@@ -207,14 +212,16 @@
                                                 <constraint firstItem="LDI-sc-sjz" firstAttribute="leading" secondItem="R2f-uk-LXH" secondAttribute="leading" constant="16" id="n3n-p2-7CX"/>
                                                 <constraint firstItem="LDI-sc-sjz" firstAttribute="width" secondItem="R2f-uk-LXH" secondAttribute="width" multiplier="0.7" id="oG1-B8-NMQ"/>
                                                 <constraint firstItem="KuC-JK-rRy" firstAttribute="trailing" secondItem="KVw-PH-BPL" secondAttribute="trailing" id="qi0-re-UgX"/>
-                                                <constraint firstAttribute="trailing" secondItem="JZz-eX-S9r" secondAttribute="trailing" constant="16" id="tkS-8e-Psz"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <constraints>
+                                            <constraint firstItem="gIe-o1-n9i" firstAttribute="centerY" secondItem="NgT-p0-iga" secondAttribute="centerY" id="hH6-6Z-8Ve"/>
+                                        </constraints>
                                         <connections>
                                             <outlet property="addressLbl" destination="LDI-sc-sjz" id="Uul-BM-yeD"/>
                                             <outlet property="cityLbl" destination="KVw-PH-BPL" id="r7a-ze-9uj"/>
-                                            <outlet property="directionsImageView" destination="JZz-eX-S9r" id="Ay1-ys-vMv"/>
                                             <outlet property="milesLbl" destination="KuC-JK-rRy" id="o1p-WE-chB"/>
+                                            <outlet property="navigationBtn" destination="gIe-o1-n9i" id="Rol-Cs-syT"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -275,7 +282,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="location.circle" catalog="system" width="128" height="121"/>
+        <image name="location.circle.fill" catalog="system" width="128" height="121"/>
         <namedColor name="AppThemeColor">
             <color red="0.062745098039215685" green="0.18431372549019609" blue="0.4392156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
