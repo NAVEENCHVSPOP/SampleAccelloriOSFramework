@@ -16,9 +16,10 @@ public class CarPlaySceneDelegate: UIResponder, CPTemplateApplicationSceneDelega
         self.interfaceController = interfaceController
         self.interfaceController?.delegate = self
 
-        // Notifications
-        NotificationCenter.default.addObserver(self, selector: #selector(handleSelectedObject(_:)),
-                name: Notification.Name("SampleAccelloriOSFrameworkDidSelectRow"), object: nil)
+//         Notifications
+//        NotificationCenter.default.addObserver(self, selector: #selector(handleSelectedObject(_:)),
+//                name: Notification.Name("SampleAccelloriOSFrameworkDidSelectRow"), object: nil)
+        
         self.getNewData()
         listViewTemplate.updateSections([updateRaceTracksList()])
         listViewTemplate.tabTitle = "Locations"
@@ -51,27 +52,27 @@ public class CarPlaySceneDelegate: UIResponder, CPTemplateApplicationSceneDelega
             item.handler = { [weak self] item, completion in
                 guard let strongSelf = self else { return }
                 SampleAccelloriOSFramework.shared.sendObjectToMainProject(selectedObject: raceTrack)
-                strongSelf.selectedPop(raceTrack: raceTrack, completion: completion)
+                strongSelf.setupMap(raceTrack: raceTrack, completion: completion)
             }
             raceTrackItems.append(item)
         }
         return CPListSection(items: raceTrackItems)
     }
     
-    @objc func handleSelectedObject(_ notification: Notification) {
-        if let myObject = notification.object {
-            let raceTrack = (myObject as! RaceTracLocationInfo)
-                selectedPop(raceTrack: raceTrack) {
-            }
-        }
-    }
+//    @objc func handleSelectedObject(_ notification: Notification) {
+//        if let myObject = notification.object {
+//            let raceTrack = (myObject as! RaceTracLocationInfo)
+//                selectedPop(raceTrack: raceTrack) {
+//            }
+//        }
+//    }
     
     func selectedPop(raceTrack: RaceTracLocationInfo, completion: @escaping () -> Void) {
-        setupMap(raceTrack: raceTrack)
+        setupMap(raceTrack: raceTrack, completion: completion)
     }
     
-    func setupMap(raceTrack: RaceTracLocationInfo) {
-
+    func setupMap(raceTrack: RaceTracLocationInfo,  completion: @escaping () -> Void) {
+        print("setupMap method called");
         let coordinates = CLLocationCoordinate2DMake(CLLocationDegrees(raceTrack.lat), CLLocationDegrees(raceTrack.log))
         let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
         let mapItem = MKMapItem(placemark: placemark)
@@ -90,7 +91,13 @@ public class CarPlaySceneDelegate: UIResponder, CPTemplateApplicationSceneDelega
         poi.primaryButton = CPTextButton(
             title: "GO",
             textStyle: .normal,
-            handler: { _ in  }
+            handler: { _ in }
+        )
+        
+        poi.secondaryButton = CPTextButton(
+            title: "More info",
+            textStyle: .normal,
+            handler: { _ in }
         )
         
         let pointOfInterestTemplate = CPPointOfInterestTemplate(
@@ -102,10 +109,12 @@ public class CarPlaySceneDelegate: UIResponder, CPTemplateApplicationSceneDelega
         pointOfInterestTemplate.tabImage = UIImage(systemName: "car")!
     
 //        let tabTemplate = CPTabBarTemplate(templates: [pointOfInterestTemplate])
-    
 //        self.interfaceController?.setRootTemplate(tabTemplate, animated: true, completion: { (done, error) in
 //        })
-        self.interfaceController?.pushTemplate(pointOfInterestTemplate, animated: true, completion: { (done, error) in
+        
+        self.interfaceController?.pushTemplate(pointOfInterestTemplate, animated: true, completion: { _, _ in
+            completion()
+            print("pushTemplate method called");
         })
     }
     
