@@ -101,11 +101,11 @@ public class CarPlaySceneDelegate: UIResponder, CPTemplateApplicationSceneDelega
             }}
         )
         
-        poi.secondaryButton = CPTextButton(
-            title: "More info",
-            textStyle: .normal,
-            handler: { _ in }
-        )
+//        poi.secondaryButton = CPTextButton(
+//            title: "More info",
+//            textStyle: .normal,
+//            handler: { _ in }
+//        )
         
         let pointOfInterestTemplate = CPPointOfInterestTemplate(
             title: "Map",
