@@ -159,8 +159,9 @@ import MapKit
         let regionSpan = MKCoordinateRegion(center: coordinates, latitudinalMeters: regionDistance, longitudinalMeters: regionDistance)
         let options = [
                MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center),
-               MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)
-        ]
+               MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span),
+               MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving
+        ] as [String : Any]
         let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
         let mapItem = MKMapItem(placemark: placemark)
         mapItem.name = selectedObject.city
